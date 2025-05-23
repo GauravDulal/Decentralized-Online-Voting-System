@@ -6,7 +6,7 @@ def home(request):
     return HttpResponse("Decentralized Voting System is Running!")
 
 urlpatterns = [
-    path('', home),  # this handles '/'
+    path('', home),
     path('admin/', admin.site.urls),
-    path('api/', include('voting.urls')),
+    path('api/', include('voting.urls')),  # includes token endpoints
 ]
