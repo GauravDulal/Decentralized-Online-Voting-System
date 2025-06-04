@@ -7,8 +7,7 @@ from .views import AddCandidateView
 # Define URL patterns for the voting app
 urlpatterns = [
     # User registration endpoint
-    path('register/', RegisterView.as_view(), name='register'),  # 👈 this line
-
+    path('register/', RegisterView.as_view(), name='register'),  
     # JWT token obtain endpoint (login)
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
 
