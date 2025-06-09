@@ -10,6 +10,9 @@ from rest_framework import status
 from .serializers import CandidateSerializer
 from .serializers import RegisterSerializer
 
+print("🔥 VoteView module loaded")
+
+
 class VoteView(APIView):
     # Only authenticated users can access this view
     permission_classes = [IsAuthenticated]

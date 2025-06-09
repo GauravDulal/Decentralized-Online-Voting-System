@@ -14,7 +14,7 @@ export const addCandidate = (token, name) =>
   });
 
 export const vote = (token, candidateId, wallet, privateKey) =>
-  axios.post('http://127.0.0.1:8000/api/vote/', {
+  axios.post(`${BASE_URL}/vote/`, {
     candidate_id: candidateId,
     wallet,
     private_key: privateKey
@@ -23,3 +23,4 @@ export const vote = (token, candidateId, wallet, privateKey) =>
       Authorization: `Bearer ${token}`
     }
   });
+
