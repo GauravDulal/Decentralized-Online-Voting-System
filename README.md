@@ -70,7 +70,7 @@ cd Decentralized-Online-Voting-System
 - Click **"QUICKSTART ETHEREUM"**
 - Ganache will launch a local Ethereum blockchain on `http://127.0.0.1:7545`
 - You’ll see 10 generated accounts with addresses and private keys
-- Go to settings and add truffle_congif.js on the project file             
+- Go to settings and add truffle_config.js on the project file             
 
 #### 🔑 Copy for later use:
 - Select the **first account**
