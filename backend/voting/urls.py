@@ -1,8 +1,6 @@
 from django.urls import path
-from .views import RegisterView
+from .views import RegisterView, VoteView, AddCandidateView
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-from .views import VoteView
-from .views import AddCandidateView
 
 # Define URL patterns for the voting app
 urlpatterns = [

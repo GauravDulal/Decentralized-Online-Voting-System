@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { vote } from '../api';
+import { vote, refreshToken } from '../api';
 
 function Dashboard() {
   const [candidateId, setCandidateId] = useState('');
@@ -9,17 +9,27 @@ function Dashboard() {
 const handleVote = async () => {
   try {
     console.log("Voting with", { candidateId, wallet, privateKey });
-    const token = localStorage.getItem('access');
-    console.log("Token:", token);
+
+    let token = localStorage.getItem('access');
+    const refresh = localStorage.getItem('refresh');
+
+    if (!refresh) {
+      alert("Refresh token not found. Please log in again.");
+      return;
+    }
+
+    // Try refreshing access token
+    const refreshRes = await refreshToken(refresh);
+    token = refreshRes.data.access;
+    localStorage.setItem('access', token);
 
     const res = await vote(token, candidateId, wallet, privateKey);
     alert(`Voted! Tx Hash: ${res.data.tx_hash}`);
   } catch (err) {
     console.error("Vote failed with error:", err);
-    alert('Vote failed');
+    alert("Vote failed. Please try again or re-login.");
   }
 };
-
 
   return (
     <div>

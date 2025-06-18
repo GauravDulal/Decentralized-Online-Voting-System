@@ -4,7 +4,7 @@ import os
 from decouple import config
 
 # Connect to Ganache CLI (local Ethereum blockchain for development)
-web3 = Web3(Web3.HTTPProvider("http://127.0.0.1:8545"))
+web3 = Web3(Web3.HTTPProvider("http://127.0.0.1:7545"))
 
 # Set the deployed contract address (replace with your contract's address if different)
 contract_address = web3.to_checksum_address("0xe211B4cD860dB51E852190D48a5d7490A8C0255A")
@@ -47,7 +47,7 @@ def cast_vote(candidate_id, voter_address, private_key):
     # Sign the transaction with the voter's private key
     signed_txn = web3.eth.account.sign_transaction(txn, private_key)
     # Send the signed transaction to the blockchain
-    tx_hash = web3.eth.send_raw_transaction(signed_txn.rawTransaction)
+    tx_hash = web3.eth.send_raw_transaction(signed_txn.raw_transaction)
 
     # Return the transaction hash as a hex string
     return web3.to_hex(tx_hash)

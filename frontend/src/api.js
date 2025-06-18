@@ -13,6 +13,11 @@ export const addCandidate = (token, name) =>
     headers: { Authorization: `Bearer ${token}` }
   });
 
+export const refreshToken = (refresh) =>
+  axios.post('http://127.0.0.1:8000/api/token/refresh/', {
+    refresh
+  })
+
 export const vote = (token, candidateId, wallet, privateKey) =>
   axios.post(`${BASE_URL}/vote/`, {
     candidate_id: candidateId,

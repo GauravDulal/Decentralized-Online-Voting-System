@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from .models import Candidate
+from .models import Candidate, Voter  # Make sure to import Voter
 
 # Serializer for user registration
 class RegisterSerializer(serializers.ModelSerializer): 
@@ -11,11 +11,11 @@ class RegisterSerializer(serializers.ModelSerializer):
         fields = ['username', 'password']  # Only expose username and password fields
 
     def create(self, validated_data):
-        # Create a new user with the provided username and password
         user = User.objects.create_user(
             username=validated_data['username'],
             password=validated_data['password']
         )
+        Voter.objects.create(user=user)  # Automatically create a Voter
         return user
 
 # Serializer for Candidate model

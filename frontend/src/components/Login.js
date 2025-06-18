@@ -7,25 +7,26 @@ function Login() {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
+  const handleLogin = async () => {
     try {
       const res = await login(username, password);
-      localStorage.setItem('access', res.data.access);
-      alert('Login successful');
+      localStorage.setItem('token', res.data.access);  // ✅ this is the key Dashboard reads from
+      localStorage.setItem('refresh', res.data.refresh);
+      alert('Login successful!');
       navigate('/dashboard');
     } catch (err) {
-      alert('Login failed');
+      console.error("Login failed:", err);
+      alert("Login failed");
     }
   };
 
   return (
-    <form onSubmit={handleLogin}>
+    <div>
       <h2>Login</h2>
-      <input type="text" placeholder="Username" onChange={(e) => setUsername(e.target.value)} />
+      <input placeholder="Username" onChange={(e) => setUsername(e.target.value)} />
       <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
-      <button type="submit">Login</button>
-    </form>
+      <button onClick={handleLogin}>Login</button>
+    </div>
   );
 }
 
