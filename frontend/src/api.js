@@ -2,10 +2,15 @@ import axios from 'axios';
 
 const BASE_URL = 'http://127.0.0.1:8000/api';
 
-export const register = (username, password) =>
-  axios.post(`${BASE_URL}/register/`, { username, password });
+export const signUp = async (username, password) => {
+  const response = await axios.post('http://localhost:8000/api/register/', {
+    username,
+    password,
+  });
+  return response.data;
+};
 
-export const login = (username, password) =>
+export const signIn = (username, password) =>
   axios.post(`${BASE_URL}/token/`, { username, password });
 
 export const addCandidate = (token, name) =>
