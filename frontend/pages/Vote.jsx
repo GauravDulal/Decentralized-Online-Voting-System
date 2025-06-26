@@ -54,14 +54,17 @@ const campaigns = [
     ],
   },
 ];
+
 export default function Vote() {
   const [remainingTimes, setRemainingTimes] = useState({});
   const [votes, setVotes] = useState({});
   const [selectedCandidate, setSelectedCandidate] = useState(null);
   const [confirmationModal, setConfirmationModal] = useState(null);
   const [toastMessage, setToastMessage] = useState(null);
+  const [candidateId, setCandidateId] = useState("");
+  const [wallet, setWallet] = useState("");
+  const [privateKey, setPrivateKey] = useState("");
 
-  // Countdown
   useEffect(() => {
     const timer = setInterval(() => {
       const now = new Date();
@@ -88,21 +91,15 @@ export default function Vote() {
     const candidate = campaign?.candidates.find((c) => c.id === candidateId);
 
     if (candidate) {
+      setCandidateId(candidate.id.toString()); // ✅ fix
       setConfirmationModal({ campaignId, candidate });
     }
   };
 
   const confirmVote = () => {
-    setCandidateId(confirmationModal.candidate.id);
-    setToastMessage(
-      `Vote successfully cast for ${confirmationModal.candidate.name}!`
-    );
+    setToastMessage(`Vote successfully cast for ${confirmationModal.candidate.name}!`);
     setConfirmationModal(null);
   };
-
-  const [candidateId, setCandidateId] = useState("");
-  const [wallet, setWallet] = useState("");
-  const [privateKey, setPrivateKey] = useState("");
 
   const handleVote = async () => {
     try {
@@ -116,7 +113,6 @@ export default function Vote() {
         return;
       }
 
-      // Try refreshing access token
       const refreshRes = await refreshToken(refresh);
       token = refreshRes.data.access;
       localStorage.setItem("access", token);
@@ -128,6 +124,7 @@ export default function Vote() {
       alert("Vote failed. Please try again or re-login.");
     }
   };
+
   return (
     <div className="bg-gray-50 min-h-screen pt-20 px-6 lg:px-20 py-10 space-y-12">
       <div className="text-center">
@@ -138,10 +135,7 @@ export default function Vote() {
       </div>
 
       {campaigns.map((campaign) => (
-        <div
-          key={campaign.id}
-          className="bg-white shadow rounded-lg p-6 space-y-6"
-        >
+        <div key={campaign.id} className="bg-white shadow rounded-lg p-6 space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
             <div>
               <h2 className="text-2xl font-semibold text-gray-800">
@@ -203,6 +197,8 @@ export default function Vote() {
       {confirmationModal && (
         <ConfirmationModal
           candidate={confirmationModal.candidate}
+          candidateId={candidateId}
+          setCandidateId={setCandidateId}
           onCancel={() => setConfirmationModal(null)}
           onConfirm={confirmVote}
           wallet={wallet}

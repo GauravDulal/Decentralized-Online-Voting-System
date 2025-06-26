@@ -2,6 +2,8 @@ import React from "react";
 
 export default function ConfirmationModal({
   candidate,
+  candidateId,
+  setCandidateId,
   onCancel,
   onConfirm,
   wallet,
@@ -19,29 +21,34 @@ export default function ConfirmationModal({
           <span className="font-semibold">{candidate.name}</span> of{" "}
           <span className="italic">{candidate.party}</span>?
         </p>
-        <input
-          type="text"
-          placeholder="Candidate Id"
-          className="w-full border border-black text-gray-500 px-3 py-2 rounded mt-2"
-          value={candidate.id}
-          onChange={(e) => setCandidateId(e.target.value)}
-        />
 
-        <input
-          type="text"
-          placeholder="Wallet Address"
-          className="w-full border border-black text-gray-500 px-3 py-2 rounded mt-2"
-          value={wallet}
-          onChange={(e) => setWallet(e.target.value)}
-        />
+        <div className="space-y-2">
+          <label className="block text-sm text-gray-700">Candidate ID</label>
+          <input
+            type="text"
+            className="w-full border border-black text-gray-500 px-3 py-2 rounded bg-gray-100"
+            value={candidateId}
+            readOnly
+          />
 
-        <input
-          type="text"
-          placeholder="Enter Private Key"
-          className="w-full border border-black text-gray-500 px-3 py-2 rounded"
-          value={privateKey}
-          onChange={(e) => setPrivateKey(e.target.value)}
-        />
+          <label className="block text-sm text-gray-700">Wallet Address</label>
+          <input
+            type="text"
+            placeholder="Enter your wallet address"
+            className="w-full border border-black text-gray-700 px-3 py-2 rounded"
+            value={wallet}
+            onChange={(e) => setWallet(e.target.value)}
+          />
+
+          <label className="block text-sm text-gray-700">Private Key</label>
+          <input
+            type="text"
+            placeholder="Enter your private key"
+            className="w-full border border-black text-gray-700 px-3 py-2 rounded"
+            value={privateKey}
+            onChange={(e) => setPrivateKey(e.target.value)}
+          />
+        </div>
 
         <div className="flex justify-end space-x-2 pt-4">
           <button
