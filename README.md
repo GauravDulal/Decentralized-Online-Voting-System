@@ -1,5 +1,5 @@
 # Decentralized Online Voting System
-
+-> My wallet pass -> Sanket@123
 This project is a full-stack decentralized voting platform built using **Django (backend)**, **React (frontend)**, and **Solidity (smart contracts)** deployed to a local Ethereum blockchain (Ganache).
 
 ---

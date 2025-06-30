@@ -1,10 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import profileImage from "../assets/images.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 
 const NavBar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const navigate = useNavigate();
+  const { isLoggedIn, logout } = useContext(AuthContext);
+
+  const handleLogout = () => {
+    logout();
+    navigate("/signin");
+  };
 
   return (
     <nav className="bg-white fixed top-0 left-0 w-full z-50 shadow-md">
@@ -35,49 +42,29 @@ const NavBar = () => {
             </Link>
           </div>
 
-          {/* Profile dropdown */}
-          <div className="relative flex space-x-4 ">
-            <Link to="/signup">
+          {/* Auth Buttons */}
+          <div className="relative flex space-x-4">
+            {isLoggedIn ? (
               <button
-                onClick={() => setDropdownOpen(!dropdownOpen)}
-                className="flex items-center cursor-pointer bg-red-500 p-3 text-sm font-bold rounded focus:outline-none focus:ring-2 focus:ring-white"
+                onClick={handleLogout}
+                className="bg-gray-800 text-white px-4 py-2 rounded font-semibold"
               >
-                {/* <img
-                className="h-8 w-8 rounded-full"
-                src={profileImage}
-                alt="Profile"
-              /> */}
-                Sign Up
+                Logout
               </button>
-            </Link>
-            <Link to="/signin">
-              <button className="flex items-center cursor-pointer bg-green-500 p-3 text-sm font-bold rounded focus:outline-none focus:ring-2 focus:ring-white">
-                Sign In
-              </button>
-            </Link>
-
-            {/* {dropdownOpen && (
-              <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-20">
-                <a
-                  href="#"
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                >
-                  Your Profile
-                </a>
-                <a
-                  href="#"
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                >
-                  Settings
-                </a>
-                <a
-                  href="#"
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                >
-                  Sign out
-                </a>
-              </div>
-            )} */}
+            ) : (
+              <>
+                <Link to="/signup">
+                  <button className="bg-red-500 text-white px-4 py-2 rounded font-semibold">
+                    Sign Up
+                  </button>
+                </Link>
+                <Link to="/signin">
+                  <button className="bg-green-500 text-white px-4 py-2 rounded font-semibold">
+                    Sign In
+                  </button>
+                </Link>
+              </>
+            )}
           </div>
 
           {/* Mobile menu button */}
@@ -117,24 +104,21 @@ const NavBar = () => {
       {/* Mobile menu items */}
       {menuOpen && (
         <div className="sm:hidden px-2 pt-2 pb-3 space-y-1 bg-white">
-          <a
-            href="#"
-            className="block text-black px-3 py-2 rounded-md text-base font-medium hover:text-indigo-600"
-          >
-            Elections
-          </a>
-          <a
-            href="#"
-            className="block text-black px-3 py-2 rounded-md text-base font-medium hover:text-indigo-600"
-          >
-            Results
-          </a>
-          <a
-            href="#"
-            className="block text-black px-3 py-2 rounded-md text-base font-medium hover:text-indigo-600"
-          >
-            Notices
-          </a>
+          <Link to="/election">
+            <p className="block text-black px-3 py-2 rounded-md text-base font-medium hover:text-indigo-600">
+              Elections
+            </p>
+          </Link>
+          <Link to="/result">
+            <p className="block text-black px-3 py-2 rounded-md text-base font-medium hover:text-indigo-600">
+              Results
+            </p>
+          </Link>
+          <Link to="/notices">
+            <p className="block text-black px-3 py-2 rounded-md text-base font-medium hover:text-indigo-600">
+              Notices
+            </p>
+          </Link>
         </div>
       )}
     </nav>

@@ -10,7 +10,7 @@ contract Voting {
     struct Candidate {
         uint id;                    // Candidate's unique ID
         string name;                // Candidate's name
-        uint voteCount;             // Number of votes received
+        uint voteCount;            // Number of votes received
     }
 
     // Structure to represent a voter
@@ -34,18 +34,19 @@ contract Voting {
         candidates[candidatesCount] = Candidate(candidatesCount, _name, 0);
     }
 
-    // Function to cast a vote for a candidate
-    function vote(uint _candidateId) public {
-        require(!voters[msg.sender].hasVoted, "Already voted"); // Ensure voter hasn't voted yet
-        require(_candidateId > 0 && _candidateId <= candidatesCount, "Invalid candidate"); // Validate candidate
+    // Function to cast a vote for a candidate (requires 1 ETH)
+    function vote(uint _candidateId) public payable {
+        require(!voters[msg.sender].hasVoted, "Already voted");
+        require(_candidateId > 0 && _candidateId <= candidatesCount, "Invalid candidate ID");
+        require(msg.value == 1 ether, "Must send exactly 1 ETH to vote");
 
-        voters[msg.sender].hasVoted = true; // Mark voter as having voted
-        candidates[_candidateId].voteCount++; // Increment candidate's vote count
+        voters[msg.sender].hasVoted = true;
+        candidates[_candidateId].voteCount++;
     }
 
-    // Function to get candidate details by ID
-    function getCandidate(uint _candidateId) public view returns (string memory, uint) {
-        Candidate memory c = candidates[_candidateId];
-        return (c.name, c.voteCount);
+    // Optional: Withdraw all collected Ether (only admin can call)
+    function withdraw() public {
+        require(msg.sender == admin, "Only admin can withdraw");
+        payable(admin).transfer(address(this).balance);
     }
 }

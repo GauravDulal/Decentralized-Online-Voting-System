@@ -53,7 +53,7 @@ const statusColors = {
 
 export default function Elections() {
   return (
-    <div className="bg-gray-50 py-24 sm:py-32 h-screen">
+    <div className="bg-gray-50 py-24 sm:py-32 h-full">
       <div className="mx-auto max-w-2xl px-6 lg:max-w-7xl lg:px-8">
         <h2 className="text-center text-base font-semibold text-indigo-600">
           Elections
