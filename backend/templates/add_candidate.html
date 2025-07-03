@@ -1,0 +1,38 @@
+<h2>Add Candidate</h2>
+
+<form method="POST">
+  <label for="campaign_id">Select Campaign:</label>
+  <select name="campaign_id" id="campaign_id" required>
+    <option value="" disabled selected>Select Campaign</option>
+    {% for campaign in campaigns %}
+      <option value="{{ campaign['id'] }}">{{ campaign['name'] }}</option>
+    {% endfor %}
+  </select>
+
+  <br><br>
+
+  <label for="name">Candidate Name:</label>
+  <input type="text" id="name" name="name" placeholder="Candidate Name" required />
+
+  <br><br>
+
+  <label for="wallet_address">Wallet Address:</label>
+  <input type="text" id="wallet_address" name="wallet_address" placeholder="Candidate Wallet Address" required />
+
+  <br><br>
+
+  <button type="submit">Add Candidate</button>
+</form>
+
+<br>
+<a href="{{ url_for('admin.admin_home') }}">Back</a>
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul>
+      {% for msg in messages %}
+        <li>{{ msg }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}

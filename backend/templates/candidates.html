@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+{% block title %}Candidates{% endblock %}
+
+{% block content %}
+<div class="bg-white p-6 rounded shadow">
+  <h1 class="text-2xl font-bold mb-6">Candidates for Campaign {{ campaign_id }}</h1>
+  
+  {% if candidates %}
+    <ul class="space-y-4">
+      {% for candidate in candidates %}
+        <li class="border p-4 rounded flex justify-between items-center hover:bg-gray-50">
+          <div>
+            <!-- Access by dictionary keys -->
+            <p class="font-semibold text-lg">{{ candidate['name'] }}</p>
+            <p class="text-sm text-gray-600">Wallet: {{ candidate['wallet_address'] }}</p>
+          </div>
+          <form action="{{ url_for('vote.vote', campaign_id=campaign_id, candidate_id=candidate['id']) }}" method="POST" class="inline-block">
+            <!-- Add CSRF token if using Flask-WTF -->
+            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+              Vote
+            </button>
+          </form>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No candidates found for this campaign.</p>
+  {% endif %}
+
+  <a href="{{ url_for('campaign.campaigns') }}" class="inline-block mt-6 text-blue-600 underline">Back to Campaigns</a>
+
+</div>
+{% endblock %}

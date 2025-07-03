@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{% block title %}Home - Decentralized Voting{% endblock %}
+
+{% block content %}
+<div class="text-center p-8 bg-white rounded shadow-md">
+  <h1 class="text-3xl font-bold mb-4">Welcome to Decentralized Voting System</h1>
+  {% if not session.get('user') %}
+    <a href="{{ url_for('auth.signin') }}" class="text-blue-600 underline mr-4">Sign In</a>
+    <a href="{{ url_for('auth.signup') }}" class="text-blue-600 underline">Sign Up</a>
+  {% else %}
+    <a href="{{ url_for('main.dashboard') }}" class="text-blue-600 underline">Go to Dashboard</a>
+  {% endif %}
+</div>
+{% endblock %}

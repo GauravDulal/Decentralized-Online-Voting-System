@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="bg-white p-6 rounded shadow">
+  <h1 class="text-3xl font-bold mb-6">Dashboard</h1>
+  <p>Welcome, {{ session.get('user')['name'] if session.get('user') else 'Guest' }}!</p>
+  <nav class="mt-6 space-x-6">
+    <a href="{{ url_for('campaign.campaigns') }}" class="text-blue-600 underline">View Campaigns</a>
+    <a href="{{ url_for('main.index') }}" class="text-blue-600 underline">Home</a>
+  </nav>
+</div>
+{% endblock %}

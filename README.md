@@ -1,176 +1,182 @@
-# Decentralized Online Voting System
+🗳️ Decentralized Online Voting System
 
-This project is a full-stack decentralized voting platform built using **Django (backend)**, **React (frontend)**, and **Solidity (smart contracts)** deployed to a local Ethereum blockchain (Ganache).
+A decentralized blockchain-based voting platform where users cast their votes by sending exactly 1 ETH to a candidate’s wallet. The vote is recorded on the Ethereum blockchain via a smart contract.
 
----
+Built with:
 
-## Project Structure
+Python (Flask) for the backend
 
-```
+Solidity smart contract (via Truffle)
+
+MySQL for user/campaign/candidate data
+
+HTML + Tailwind CSS for frontend
+
+MetaMask & Web3 for wallet interaction
+
+📁 Project Structure
+
 Decentralized-Online-Voting-System/
-├── backend/                  # Django project
-│   ├── manage.py
-│   ├── dvs/                  # Main Django project settings
-│   └── voting/               # Django app for voting logic
-├── frontend/                 # React frontend
-│   ├── src/
-│   └── package.json
-├── contracts/               # Solidity smart contracts
-│   └── Voting.sol
-├── migrations/              # Truffle migrations
-├── truffle-config.js
-└── README.md
-```
+├── backend/                  # Flask app
+│   ├── routes/              # Flask Blueprints
+│   ├── services/            # Contract/web3/db logic
+│   ├── templates/           # HTML templates
+│   └── __pycache__/
+├── database/                # SQL setup files or seeds
+├── truffle/                 # Smart contract project
+│   ├── build/               # Compiled artifacts (ABI, bytecode)
+│   ├── contracts/           # Solidity source files
+│   └── migrations/          # Truffle deployment scripts
+├── .env                     # Environment config
+├── requirements.txt         # Python dependencies
+└── README.md                # Project guide
 
----
+✅ Prerequisites
 
-## Prerequisites
+Install the following tools on a clean machine:
 
-> Make sure you have the following installed:
+Python 3.10 or higher
 
-### System Requirements
-- [Node.js](https://nodejs.org/) (v18 recommended)
-- [Truffle](https://trufflesuite.com/) `npm install -g truffle`
-- [Ganache](https://trufflesuite.com/ganache/) (for local Ethereum blockchain)
-- [Python 3.10+](https://www.python.org/downloads/)
-- [Django](https://www.djangoproject.com/)
-- [MetaMask](https://metamask.io/) (browser extension)
+pip
 
-### Python Dependencies
-Run these inside the `backend/` folder:
+MySQL Server (with user access)
 
-```bash
+Node.js & npm
+
+Ganache (GUI or CLI)
+
+Truffle (npm install -g truffle)
+
+MetaMask browser extension
+
+⚖️ Setup Instructions
+
+Clone this repository
+
+git clone https://github.com/yourname/Decentralized-Online-Voting-System.git
+cd Decentralized-Online-Voting-System
+
+(Optional) Set up a virtual environment
+
+python -m venv venv
+# Activate:
+# Windows:
+venv\Scripts\activate
+# Mac/Linux:
+source venv/bin/activate
+
+Install Python dependencies
+
 pip install -r requirements.txt
-```
 
-If no `requirements.txt`, install manually:
+If requirements.txt is missing, manually install:
 
-```bash
-pip install django djangorestframework djangorestframework-simplejwt django-cors-headers web3
-```
+pip install flask flask-mysqldb web3 python-dotenv
 
----
+Configure MySQL database
 
-## Setup Instructions
+In MySQL:
 
-### 1. Clone the Repository
+CREATE DATABASE voting_system;
 
-```bash
-git clone https://github.com/GauravDulal/Decentralized-Online-Voting-System.git
-cd Decentralized-Online-Voting-System
-```
+USE voting_system;
 
-### 2. Set Up Ganache
+CREATE TABLE users (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100),
+  email VARCHAR(100) UNIQUE,
+  password VARCHAR(255),
+  wallet_address VARCHAR(255)
+);
 
-#### 🛠 Install Ganache:
-- Download and install from: https://trufflesuite.com/ganache
+CREATE TABLE campaigns (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100)
+);
 
-#### 🚀 Run Ganache:
-- Open the application
-- Click **"QUICKSTART ETHEREUM"**
-- Ganache will launch a local Ethereum blockchain on `http://127.0.0.1:7545`
-- You’ll see 10 generated accounts with addresses and private keys
-- Go to settings and add truffle_config.js on the project file             
+CREATE TABLE candidates (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100),
+  campaign_id INT,
+  wallet_address VARCHAR(255),
+  FOREIGN KEY (campaign_id) REFERENCES campaigns(id)
+);
 
-#### 🔑 Copy for later use:
-- Select the **first account**
-- Copy both the **wallet address** and **private key** for use in voting and MetaMask import
+Create a .env file in root
 
-### 3. Connect MetaMask to Ganache
+SECRET_KEY=your_secret_key
+MYSQL_HOST=localhost
+MYSQL_USER=root
+MYSQL_PASSWORD=your_mysql_password
+MYSQL_DB=voting_system
 
-#### 🛠 Install MetaMask:
-Use the [MetaMask extension](https://metamask.io/) on Chrome/Brave
+Set up and deploy the smart contract
 
-#### 🔌 Add Ganache as a network:
-```
-Network Name: Ganache
-RPC URL: http://127.0.0.1:7545
-Chain ID: 1337
-```
-
-#### 🔑 Import Ganache Account:
-- Open MetaMask → Click account icon
-- Select **Import Account**
-- Paste in the private key you copied from Ganache
-
-### 4. Deploy Smart Contract
-
-```bash
-cd Decentralized-Online-Voting-System
-npm install -g truffle        # if not installed globally
-npm install                   # install local deps if needed
-```
-
-#### Configure `truffle-config.js`:
-```js
-networks: {
-  development: {
-    host: "127.0.0.1",
-    port: 7545,
-    network_id: "*"
-  }
-},
-```
-
-#### 🚀 Compile & Deploy:
-```bash
+cd truffle
 truffle compile
 truffle migrate --reset
-```
-You should see your contract deployed with a transaction hash and address.
 
-### 5. Run Django Backend
+Update contract address and ABI
 
-```bash
-cd backend
-pip install -r requirements.txt
-python manage.py makemigrations
-python manage.py migrate
-python manage.py runserver
-```
-Running on: `http://127.0.0.1:8000/`
+Copy VotingSystem.json from truffle/build/contracts/ to backend/services/contract_data/Voting.json
 
-Ensure `Voting.json` exists at: `build/contracts/Voting.json`
+In backend/services/blockchain.py, replace the contract address:
 
----
+contract_address = "0xYourDeployedContractAddress"
 
-### 6. Run React Frontend
+Start Ganache and ensure it matches the Truffle network config
 
-```bash
-cd ../frontend
-npm install
-npm start
-```
-Running on: `http://localhost:3000/`
+Run the Flask app
 
----
+From root folder:
 
-## 🔑 Authentication & Voting Flow
+python -m backend.app
 
-1. **Register/Login** using React UI
-2. JWT **access + refresh tokens** are saved in `localStorage`
-3. Tokens are included in the headers for protected endpoints
-4. Vote by sending a POST to `/api/vote/` with:
-   - `candidate_id`
-   - `wallet`
-   - `private_key`
+Visit: http://localhost:5000
 
-> Token must be sent as `Authorization: Bearer <access_token>`
+🔍 Usage Guide
 
----
+Register with email, password, wallet address
 
-## ✅ FULL WORKFLOW CHECKLIST
+Admin:
 
-| Step | Action |
-|------|--------|
-| 1 | Open Ganache and copy a private key/address |
-| 2 | Import that wallet into MetaMask |
-| 3 | Run `truffle migrate --reset` to deploy the smart contract |
-| 4 | Start Django: `python manage.py runserver` |
-| 5 | Start React: `npm start` |
-| 6 | Register a user via `/register` |
-| 7 | Login and use token from localStorage |
-| 8 | Add a candidate (if admin) |
-| 9 | Vote with candidate ID, wallet address, and private key |
+Add campaigns
 
----
+Add candidates with their wallet addresses
+
+Users:
+
+View campaigns and vote by sending 1 ETH (via MetaMask)
+
+Can vote once per campaign
+
+Results:
+
+Real-time vote count per candidate using candidateVotes mapping on-chain
+
+💡 How Voting Works
+
+Each vote = 1 ETH sent to a candidate's wallet
+
+Voter must not have voted before in that campaign
+
+Smart contract enforces:
+
+Exact payment (1 ETH)
+
+One vote per wallet per campaign
+
+candidateVotes[campaignId][candidateId] stores on-chain vote totals
+
+Flask pulls this value via Web3 and displays it in results.html
+
+✅ Tips
+
+Use MetaMask and switch to Ganache network
+
+Use Ganache accounts with enough ETH for test voting
+
+Use print statements/logs for debugging contract and Flask errors
+
+Let me know if you want this file saved or zipped with the project!
+

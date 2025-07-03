@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-gray-50">
+<head>
+  <meta charset="UTF-8" />
+  <title>{% block title %}Decentralized Voting System{% endblock %}</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen flex flex-col bg-gray-50">
+
+  <header class="bg-white shadow p-4">
+    <div class="max-w-6xl mx-auto flex justify-between items-center">
+      <a href="{{ url_for('main.index') }}" class="text-xl font-bold text-blue-600">Decentralized Voting</a>
+      <nav>
+        {% if session.get('user') %}
+          <span class="mr-4">Hello, {{ session['user']['name'] }}</span>
+          <a href="{{ url_for('main.dashboard') }}" class="mr-4 hover:underline">Dashboard</a>
+          <a href="{{ url_for('auth.logout') }}" class="text-red-600 hover:underline">Logout</a>
+          <a href="{{ url_for('main.results') }}">📊 View Results</a>
+
+        {% else %}
+          <a href="{{ url_for('auth.signin') }}" class="mr-4 hover:underline">Sign In</a>
+          <a href="{{ url_for('auth.signup') }}" class="hover:underline">Sign Up</a>
+        {% endif %}
+      </nav>
+    </div>
+  </header>
+
+  <main class="flex-grow max-w-4xl mx-auto p-6 w-full">
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div class="mb-4">
+          {% for message in messages %}
+            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-2" role="alert">
+              {{ message }}
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="bg-white shadow p-4 text-center text-gray-500 text-sm">
+    &copy; 2025 Decentralized Voting System
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('form').forEach(form => {
+        form.addEventListener('submit', e => {
+          const btn = form.querySelector('button[type="submit"]');
+          if (btn) {
+            btn.disabled = true;
+            btn.textContent = "Voting...";
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
+
+
