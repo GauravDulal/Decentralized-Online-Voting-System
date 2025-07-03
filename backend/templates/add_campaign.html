@@ -1,0 +1,37 @@
+{% extends "layout.html" %} {% block title %}Voting Results{% endblock %} {%
+block content %}
+<div class="bg-white p-6 rounded shadow">
+  <h1 class="text-2xl font-bold mb-6">
+    Voting Results for "{{ campaign_name }}"
+  </h1>
+
+  {% if results %}
+  <table class="min-w-full border-collapse border border-gray-300">
+    <thead>
+      <tr class="bg-gray-200">
+        <th class="border border-gray-300 px-4 py-2 text-left">Candidate</th>
+        <th class="border border-gray-300 px-4 py-2 text-center">Votes</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for candidate in results %}
+      <tr class="hover:bg-gray-50">
+        <td class="border border-gray-300 px-4 py-2">{{ candidate.name }}</td>
+        <td class="border border-gray-300 px-4 py-2 text-center">
+          {{ candidate.votes }}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p>No voting results available yet.</p>
+  {% endif %}
+
+  <a
+    href="{{ url_for('main.dashboard') }}"
+    class="inline-block mt-6 text-blue-600 underline"
+    >Back to Dashboard</a
+  >
+</div>
+{% endblock %}

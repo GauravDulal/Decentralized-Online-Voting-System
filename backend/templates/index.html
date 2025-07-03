@@ -1,0 +1,21 @@
+<!-- templates/index.html -->
+{% extends "layout.html" %} {% block title %}Welcome{% endblock %} {% block
+content %}
+<div class="text-center">
+  <h2 class="text-3xl font-bold mb-6">
+    Welcome to the Decentralized Voting Platform
+  </h2>
+  <div class="space-x-4">
+    <a
+      href="{{ url_for('auth.signin') }}"
+      class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700"
+      >Sign In</a
+    >
+    <a
+      href="{{ url_for('auth.signup') }}"
+      class="bg-gray-600 text-white px-6 py-2 rounded hover:bg-gray-700"
+      >Sign Up</a
+    >
+  </div>
+</div>
+{% endblock %}

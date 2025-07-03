@@ -1,0 +1,24 @@
+<!-- templates/signin.html -->
+{% extends "layout.html" %} {% block title %}Sign In{% endblock %} {% block
+content %}
+<h2 class="text-2xl font-bold mb-4">Sign In</h2>
+<form method="POST" class="space-y-4">
+  <input
+    type="text"
+    name="nid"
+    placeholder="NID"
+    class="w-full p-2 border rounded"
+    required
+  />
+  <input
+    type="password"
+    name="password"
+    placeholder="Password"
+    class="w-full p-2 border rounded"
+    required
+  />
+  <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">
+    Sign In
+  </button>
+</form>
+{% endblock %}

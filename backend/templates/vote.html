@@ -1,0 +1,50 @@
+<!-- templates/vote.html -->
+{% extends "layout.html" %} {% block title %}Vote{% endblock %} {% block content
+%}
+<div class="bg-white p-6 rounded shadow">
+  <h2 class="text-2xl font-bold mb-4">Vote in "{{ campaign_name }}"</h2>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    {% for candidate in candidates %}
+    <button
+      onclick="castVote({{ campaign_id }}, {{ candidate.id }})"
+      class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded"
+    >
+      {{ candidate.name }}
+    </button>
+    {% endfor %}
+  </div>
+  <p id="status" class="mt-6 text-sm text-gray-700 font-semibold"></p>
+</div>
+
+<script>
+  const CONTRACT_ADDRESS = "{{ contract_address }}";
+  const CONTRACT_ABI = {{ contract_abi | safe }};
+
+  async function castVote(campaignId, candidateId) {
+    if (typeof window.ethereum === 'undefined') {
+      alert("🦊 MetaMask is not installed.");
+      return;
+    }
+
+    try {
+      await ethereum.request({ method: 'eth_requestAccounts' });
+      const accounts = await ethereum.request({ method: 'eth_accounts' });
+      const user = accounts[0];
+      const web3 = new Web3(window.ethereum);
+      const contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
+
+      document.getElementById("status").innerText = "⏳ Sending vote...";
+      await contract.methods.vote(campaignId, candidateId).send({
+        from: user,
+        value: web3.utils.toWei("1", "ether")
+      });
+
+      document.getElementById("status").innerText = "✅ Vote successful!";
+      setTimeout(() => window.location.href = "/results", 2000);
+    } catch (err) {
+      console.error(err);
+      document.getElementById("status").innerText = "❌ Error: " + (err?.message || "Something went wrong.");
+    }
+  }
+</script>
+{% endblock %}

@@ -1,0 +1,38 @@
+<!-- templates/dashboard.html -->
+{% extends "layout.html" %} {% block title %}Dashboard{% endblock %} {% block
+content %}
+<h2 class="text-2xl font-bold mb-4">Welcome, {{ session.user.name }}</h2>
+
+<button
+  onclick="connectWallet()"
+  class="bg-green-600 text-white px-4 py-2 rounded mb-4"
+  id="connectBtn"
+>
+  🔌 Connect Wallet
+</button>
+<p id="walletStatus" class="text-sm text-gray-600 mb-4"></p>
+
+<a
+  href="{{ url_for('campaign.campaigns') }}"
+  id="goCampaigns"
+  class="hidden bg-blue-600 text-white px-4 py-2 rounded"
+>
+  🎯 View Campaigns
+</a>
+
+<script>
+  async function connectWallet() {
+    if (typeof window.ethereum === "undefined") {
+      alert("🦊 MetaMask is not installed.");
+      return;
+    }
+    const accounts = await ethereum.request({ method: "eth_requestAccounts" });
+    const userWallet = accounts[0];
+    document.getElementById(
+      "walletStatus"
+    ).innerText = `✅ Wallet connected: ${userWallet}`;
+    document.getElementById("goCampaigns").classList.remove("hidden");
+    document.getElementById("connectBtn").classList.add("hidden");
+  }
+</script>
+{% endblock %}

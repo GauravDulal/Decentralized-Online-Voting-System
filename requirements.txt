@@ -1,0 +1,5 @@
+flask
+flask-mysqldb
+web3
+python-dotenv
+werkzeug

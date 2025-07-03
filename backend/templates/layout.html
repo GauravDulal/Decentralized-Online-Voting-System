@@ -1,0 +1,44 @@
+<!-- templates/layout.html -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Decentralized Voting{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+  </head>
+  <body class="bg-gray-100 min-h-screen">
+    <nav
+      class="bg-blue-600 text-white px-6 py-3 flex justify-between items-center"
+    >
+      <h1 class="text-xl font-bold">🗳️ D-Voting</h1>
+      <div class="space-x-4">
+        {% if session.user %}
+        <span>{{ session.user.name }}</span>
+        <a href="{{ url_for('auth.logout') }}" class="hover:underline"
+          >Logout</a
+        >
+        {% else %}
+        <a href="{{ url_for('auth.signin') }}" class="hover:underline"
+          >Sign In</a
+        >
+        <a href="{{ url_for('auth.signup') }}" class="hover:underline"
+          >Sign Up</a
+        >
+        {% endif %}
+      </div>
+    </nav>
+
+    <div class="max-w-4xl mx-auto py-6 px-4">
+      {% with messages = get_flashed_messages() %} {% if messages %} {% for
+      message in messages %}
+      <div
+        class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-4"
+      >
+        {{ message }}
+      </div>
+      {% endfor %} {% endif %} {% endwith %} {% block content %}{% endblock %}
+    </div>
+  </body>
+</html>

@@ -1,0 +1,45 @@
+<!-- templates/signup.html -->
+{% extends "layout.html" %} {% block title %}Sign Up{% endblock %} {% block
+content %}
+<h2 class="text-2xl font-bold mb-4">Sign Up</h2>
+<form method="POST" class="space-y-4">
+  <input
+    type="text"
+    name="name"
+    placeholder="Full Name"
+    class="w-full p-2 border rounded"
+    required
+  />
+  <input
+    type="text"
+    name="nid"
+    placeholder="NID"
+    class="w-full p-2 border rounded"
+    required
+  />
+  <input
+    type="text"
+    name="wallet_address"
+    placeholder="Wallet Address"
+    class="w-full p-2 border rounded"
+    required
+  />
+  <input
+    type="text"
+    name="private_key"
+    placeholder="Private Key"
+    class="w-full p-2 border rounded"
+    required
+  />
+  <input
+    type="password"
+    name="password"
+    placeholder="Password"
+    class="w-full p-2 border rounded"
+    required
+  />
+  <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">
+    Sign Up
+  </button>
+</form>
+{% endblock %}

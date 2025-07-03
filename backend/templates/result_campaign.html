@@ -1,0 +1,19 @@
+{% extends "layout.html" %} {% block title %}Results - {{ campaign_name }}{%
+endblock %} {% block content %}
+<h2 class="text-2xl font-bold mb-6">📊 Results for "{{ campaign_name }}"</h2>
+
+<ul class="space-y-4 bg-white p-6 rounded shadow">
+  {% for result in results %}
+  <li class="flex justify-between">
+    <span class="text-lg">{{ result.name }}</span>
+    <span class="font-bold">{{ result.votes }} 🗳️</span>
+  </li>
+  {% endfor %}
+</ul>
+
+<a
+  href="{{ url_for('main.dashboard') }}"
+  class="block mt-6 text-blue-600 hover:underline"
+  >← Back to Dashboard</a
+>
+{% endblock %}
