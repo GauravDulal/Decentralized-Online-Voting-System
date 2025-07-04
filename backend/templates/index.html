@@ -1,23 +1,6 @@
 <!-- templates/index.html -->
 {% extends "layout.html" %} {% block title %}Welcome{% endblock %} {% block
 content %}
-<!-- <div class="text-center">
-  <h2 class="text-3xl font-bold mb-6">
-    Welcome to the Decentralized Voting Platform
-  </h2>
-  <div class="space-x-4">
-    <a
-      href="{{ url_for('auth.signin') }}"
-      class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700"
-      >Sign In</a
-    >
-    <a
-      href="{{ url_for('auth.signup') }}"
-      class="bg-gray-600 text-white px-6 py-2 rounded hover:bg-gray-700"
-      >Sign Up</a
-    >
-  </div>
-</div> -->
     <!-- Hero -->
     <div class="bg-white">
       <div class="relative isolate px-6 lg:px-8 z-0">
@@ -56,16 +39,13 @@ content %}
         </div>
 
         <!-- Hero Content -->
-        <div class="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
+        <div class="mx-auto max-w-2xl py-32 sm:py-48 lg:py-32">
           <div class="hidden sm:mb-8 sm:flex sm:justify-center">
-            <a href="/learnmore">
+            <a href="#">
               <div
                 class="relative rounded-full px-3 py-1 text-sm text-gray-600 ring-1 ring-gray-900/10 hover:ring-gray-900/20"
               >
                 Revolutionizing the way the world votes.
-                <span class="font-semibold text-indigo-600">
-                  Read more &rarr;
-                </span>
               </div>
             </a>
           </div>
@@ -86,12 +66,6 @@ content %}
                 class="rounded-md bg-indigo-600 px-6 py-3.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
                 Vote Now
-              </a>
-              <a
-                href="/learnmore"
-                class="text-sm font-semibold text-gray-900 hover:text-indigo-600"
-              >
-                Learn more →
               </a>
             </div>
           </div>
@@ -319,7 +293,7 @@ content %}
           <figcaption class="mt-10">
             <img
               alt="K.P. Oli"
-              src="kp_oli.jpg"
+              src="../static/imgs/kp_oli.jpg"
               class="mx-auto size-10 rounded-full object-cover"
             />
             <div

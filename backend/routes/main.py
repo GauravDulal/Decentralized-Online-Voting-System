@@ -14,7 +14,7 @@ def dashboard():
         return render_template('index.html')
     return render_template('dashboard.html')
 
-@main_bp.route('/result')
+@main_bp.route('/results')
 def result():
     if "user" not in session:
         return render_template('index.html')
@@ -32,25 +32,8 @@ def election():
         return render_template('index.html')
     return render_template('elections.html')
 
-@main_bp.route("/results")
-def results():
-    contract = load_contract()
-    campaigns = []
-    for cid in range(1, contract.functions.campaignsCount().call() + 1):
-        campaign_name = contract.functions.campaigns(cid).call()
-        candidate_list = []
-        for i in range(1, contract.functions.candidatesCount(cid).call() + 1):
-            name = contract.functions.candidateNames(cid, i).call()
-            address = contract.functions.candidates(cid, i).call()
-            candidate_list.append({
-                "id": i,
-                "name": name,
-                "wallet": address
-            })
-        campaigns.append({
-            "id": cid,
-            "name": campaign_name,
-            "candidates": candidate_list
-        })
-
-    return render_template("results.html", campaigns=campaigns)
+# @main_bp.route('/learnmore')
+# def election():
+#     if "user" not in session:
+#         return render_template('index.html')
+#     return render_template('learnmore.html')
