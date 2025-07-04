@@ -1,20 +1,58 @@
-<!-- templates/vote.html -->
-{% extends "layout.html" %} {% block title %}Vote{% endblock %} {% block content
-%}
-<div class="bg-white p-6 rounded shadow">
-  <h2 class="text-2xl font-bold mb-4">Vote in "{{ campaign_name }}"</h2>
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-    {% for candidate in candidates %}
-    <button
-      onclick="castVote({{ campaign_id }}, {{ candidate.id }})"
-      class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded"
-    >
-      {{ candidate.name }}
-    </button>
-    {% endfor %}
-  </div>
-  <p id="status" class="mt-6 text-sm text-gray-700 font-semibold"></p>
+{% extends "layout.html" %}
+{% block title %}Vote{% endblock %}
+
+{% block content %}
+<div class="h-screen">
+  <main class="pt-10 px-6 lg:px-20 space-y-12 pb-20">
+    <div class="text-center">
+      <h1 class="text-4xl font-bold text-indigo-700">Vote Now</h1>
+      <p class="text-gray-600 mt-2 text-lg">
+        Choose your candidates and shape the future.
+      </p>
+      <p id="status" class="mt-4 text-sm font-medium text-red-500"></p>
+    </div>
+
+    <section class="bg-white shadow rounded-lg p-6 space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h2 class="text-2xl font-semibold text-gray-800">
+            {{ campaign_name }}
+          </h2>
+        </div>
+      </div>
+
+      <div class="bg-indigo-50 rounded-md p-4">
+        <h3 class="text-sm font-semibold text-indigo-700 mb-2">
+          📝 Important Notes:
+        </h3>
+        <ul class="list-disc list-inside text-sm text-gray-600">
+          <li>Make sure you are eligible to vote.</li>
+          <li>Your vote is encrypted and secure.</li>
+        </ul>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for candidate in candidates %}
+        <div class="border p-4 rounded shadow space-y-2">
+          <h3 class="text-lg font-semibold text-gray-800">
+            {{ candidate.name }}
+          </h3>
+          <p class="text-sm text-gray-500">Party Name</p>
+          <p class="text-xs text-gray-400">ID: {{ candidate.id }}</p>
+          <button
+            onclick="castVote({{ campaign_id }}, {{ candidate.id }})"
+            class="mt-2 w-full px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700"
+          >
+            Select & Vote
+          </button>
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+  </main>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/web3@1.10.0/dist/web3.min.js"></script>
 
 <script>
   const CONTRACT_ADDRESS = "{{ contract_address }}";
@@ -26,24 +64,27 @@
       return;
     }
 
+    const statusEl = document.getElementById("status");
     try {
       await ethereum.request({ method: 'eth_requestAccounts' });
       const accounts = await ethereum.request({ method: 'eth_accounts' });
       const user = accounts[0];
+
       const web3 = new Web3(window.ethereum);
       const contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
 
-      document.getElementById("status").innerText = "⏳ Sending vote...";
+      if (statusEl) statusEl.innerText = "⏳ Sending vote...";
+      
       await contract.methods.vote(campaignId, candidateId).send({
         from: user,
         value: web3.utils.toWei("1", "ether")
       });
 
-      document.getElementById("status").innerText = "✅ Vote successful!";
+      if (statusEl) statusEl.innerText = "✅ Vote successful!";
       setTimeout(() => window.location.href = "/results", 2000);
     } catch (err) {
       console.error(err);
-      document.getElementById("status").innerText = "❌ Error: " + (err?.message || "Something went wrong.");
+      if (statusEl) statusEl.innerText = "❌ Error: " + (err?.message || "Something went wrong.");
     }
   }
 </script>

@@ -14,7 +14,7 @@ content %}
             class="bg-white p-6 cursor-pointer"
           >
             <a
-              href="{{ url_for('campaign.candidates', campaign_id=campaign.id) }}"
+              href="{{ url_for('campaign.vote_page', campaign_id=campaign.id) }}"
               class="block bg-white shadow p-4 rounded hover:bg-gray-100 font-bold"
             >
               {{ campaign.name }}
