@@ -11,7 +11,7 @@ except ValueError:
     pass
 
 app = create_app()
-OWNER_PRIVATE_KEY = "0x8567821dece4f99c8b429426c5e7baf4baf168ccf13b8f8f0b696e92fca0abb0"
+OWNER_PRIVATE_KEY = "0x2ecf67c819d52b3fa6e2300889c01ad377695c135c18a92977d606a1d76b050d"
 if not OWNER_PRIVATE_KEY:
     raise ValueError("Missing OWNER_PRIVATE_KEY environment variable!")
 

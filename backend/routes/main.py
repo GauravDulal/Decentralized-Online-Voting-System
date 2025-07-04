@@ -14,6 +14,23 @@ def dashboard():
         return render_template('index.html')
     return render_template('dashboard.html')
 
+@main_bp.route('/result')
+def result():
+    if "user" not in session:
+        return render_template('index.html')
+    return render_template('results.html')
+
+@main_bp.route('/notices')
+def notices():
+    if "user" not in session:
+        return render_template('index.html')
+    return render_template('notices.html')
+
+@main_bp.route('/election')
+def election():
+    if "user" not in session:
+        return render_template('index.html')
+    return render_template('elections.html')
 
 @main_bp.route("/results")
 def results():

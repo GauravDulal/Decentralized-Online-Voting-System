@@ -1,24 +1,90 @@
-<!-- templates/dashboard.html -->
 {% extends "layout.html" %} {% block title %}Dashboard{% endblock %} {% block
 content %}
-<h2 class="text-2xl font-bold mb-4">Welcome, {{ session.user.name }}</h2>
+<div class="h-screen">
+  <div class="relative isolate px-6 lg:px-8">
+    <div class="mx-auto max-w-2xl py-16 sm:py-24 lg:py-28">
+      <div class="hidden sm:mb-8 sm:flex sm:justify-center">
+        <a href="#">
+          <div
+            class="relative rounded-full px-3 py-1 text-sm text-red-600 ring-1 ring-red-900/10 hover:ring-red-900/20"
+          >
+            Metamask must be installed
+          </div>
+        </a>
+      </div>
+      <div class="text-center">
+        <h1
+          class="text-5xl font-semibold tracking-tight text-gray-900 sm:text-7xl"
+        >
+          Connect Your Wallet
+        </h1>
+        <p class="mt-8 text-lg text-gray-500 sm:text-xl">
+          Connect your crypto wallet to securely access the decentralized voting
+          system. Your identity is verified on-chain, ensuring voter privacy,
+          election transparency, and immutable records—building trust through
+          blockchain technology.
+        </p>
+        <div class="mt-10 flex items-center justify-center gap-x-6">
+          <div class="flex justify-center space-y-4">
+            <div class="flex space-x-2 items-center">
+              <button
+                onclick="connectWallet()"
+                class="bg-green-600 text-white px-4 py-2 rounded"
+                id="connectBtn"
+              >
+                Connect Wallet
+              </button>
+            </div>
+            <div class="flex flex-col space-y-4">
+              <p id="walletStatus" class="text-md text-green-600"></p>
+              <a
+                href="{{ url_for('campaign.campaigns') }}"
+                id="goCampaigns"
+                class="hidden bg-indigo-500 text-white px-4 py-2 rounded font-semibold text-center"
+              >
+                View Campaigns
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-<button
-  onclick="connectWallet()"
-  class="bg-green-600 text-white px-4 py-2 rounded mb-4"
-  id="connectBtn"
->
-  🔌 Connect Wallet
-</button>
-<p id="walletStatus" class="text-sm text-gray-600 mb-4"></p>
-
-<a
-  href="{{ url_for('campaign.campaigns') }}"
-  id="goCampaigns"
-  class="hidden bg-blue-600 text-white px-4 py-2 rounded"
->
-  🎯 View Campaigns
-</a>
+    <!-- Bottom Background Blur -->
+    <div
+      class="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]"
+      aria-hidden="true"
+    >
+      <div
+        class="relative left-[calc(50%+3rem)] sm:left-[calc(50%+36rem)] opacity-30"
+        style="
+          width: 43rem;
+          aspect-ratio: 1155 / 678;
+          transform: translateX(-50%);
+          background: linear-gradient(to top right, #ff80b5, #9089fc);
+          clip-path: polygon(
+            74.1% 44.1%,
+            100% 61.6%,
+            97.5% 26.9%,
+            85.5% 0.1%,
+            80.7% 2%,
+            72.5% 32.5%,
+            60.2% 62.4%,
+            52.4% 68.1%,
+            47.5% 58.3%,
+            45.2% 34.5%,
+            27.5% 76.7%,
+            0.1% 64.9%,
+            17.9% 100%,
+            27.6% 76.8%,
+            76.1% 97.7%,
+            74.1% 44.1%
+          );
+        "
+      ></div>
+    </div>
+  </div>
+</div>
 
 <script>
   async function connectWallet() {
@@ -30,7 +96,7 @@ content %}
     const userWallet = accounts[0];
     document.getElementById(
       "walletStatus"
-    ).innerText = `✅ Wallet connected: ${userWallet}`;
+    ).innerText = `Wallet connected: ${userWallet}`;
     document.getElementById("goCampaigns").classList.remove("hidden");
     document.getElementById("connectBtn").classList.add("hidden");
   }

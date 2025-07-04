@@ -1,8 +1,6 @@
 from flask import Blueprint, request, render_template, redirect, session, flash, url_for
 from werkzeug.security import generate_password_hash, check_password_hash
 from backend.services.database import get_user_by_nid, create_user
-from backend.services.database import update_user_wallet
-from flask import request, session, jsonify
 
 auth_bp = Blueprint("auth", __name__)
 
@@ -13,17 +11,17 @@ def signin():
         nid = request.form["nid"]
         password = request.form["password"]
         user = get_user_by_nid(nid)
-        if user and check_password_hash(user[5], password):
+
+        if user and check_password_hash(user[3], password): 
             session["user"] = {
                 "nid": user[1],
                 "name": user[2],
-                "wallet": user[3],
-                "private_key": user[4],
             }
-            return redirect(url_for("main.dashboard"))
+            return redirect(url_for("main.index"))
         else:
             flash("Invalid credentials")
     return render_template("signin.html")
+
 
 
 @auth_bp.route("/signup", methods=["GET", "POST"])
@@ -31,8 +29,6 @@ def signup():
     if request.method == "POST":
         name = request.form["name"]
         nid = request.form["nid"]
-        wallet = request.form["wallet_address"]
-        private_key = request.form["private_key"]
         password = request.form["password"]
         password_hash = generate_password_hash(password)
 
@@ -41,7 +37,7 @@ def signup():
             flash("User already exists")
             return redirect(url_for("auth.signup"))
 
-        create_user(name, nid, wallet, private_key, password_hash)
+        create_user(name, nid, password_hash)
         flash("Account created! Please sign in.")
         return redirect(url_for("auth.signin"))
 
@@ -52,14 +48,3 @@ def signup():
 def logout():
     session.pop("user", None)
     return redirect(url_for("main.index"))
-
-
-@auth_bp.route("/update_wallet", methods=["POST"])
-def update_wallet():
-    if "user" not in session:
-        return {"message": "User not logged in"}, 401  # Ensure the user is logged in.
-
-    wallet_address = request.json.get("wallet")
-    session["user"]["wallet"] = wallet_address  # Store the wallet in the session.
-
-    return {"message": "Wallet updated successfully"}

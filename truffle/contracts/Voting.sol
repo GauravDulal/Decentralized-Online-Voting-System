@@ -89,4 +89,5 @@ contract VotingSystem {
     function hasUserVoted(address user, uint256 campaignId) external view returns (bool) {
         return hasVoted[user][campaignId];
     }
+}
 

@@ -8,19 +8,19 @@ admin_bp = Blueprint("admin", __name__)
 # Ensure w3 uses PoA middleware if needed (Ganache)
 w3.middleware_onion.inject(geth_poa_middleware, layer=0)
 
-def send_transaction(func, private_key):
-    account = w3.eth.account.privateKeyToAccount(private_key)
-    nonce = w3.eth.get_transaction_count(account.address)
-    txn = func.buildTransaction({
-        'from': account.address,
-        'nonce': nonce,
-        'gas': 300000,
-        'gasPrice': w3.toWei('20', 'gwei')
-    })
-    signed_txn = w3.eth.account.sign_transaction(txn, private_key)
-    tx_hash = w3.eth.send_raw_transaction(signed_txn.rawTransaction)
-    w3.eth.wait_for_transaction_receipt(tx_hash)
-    return tx_hash.hex()
+# def send_transaction(func, private_key):
+#     account = w3.eth.account.privateKeyToAccount(private_key)
+#     nonce = w3.eth.get_transaction_count(account.address)
+#     txn = func.buildTransaction({
+#         'from': account.address,
+#         'nonce': nonce,
+#         'gas': 300000,
+#         'gasPrice': w3.toWei('20', 'gwei')
+#     })
+#     signed_txn = w3.eth.account.sign_transaction(txn, private_key)
+#     tx_hash = w3.eth.send_raw_transaction(signed_txn.rawTransaction)
+#     w3.eth.wait_for_transaction_receipt(tx_hash)
+#     return tx_hash.hex()
 
 @admin_bp.route('/admin')
 def admin_home():
@@ -57,11 +57,11 @@ def add_candidate():
 
         contract = load_contract()
         func = contract.functions.addCandidate(campaign_id, name, wallet)
-        try:
-            tx_hash = send_transaction(func, private_key)
-            flash(f"Candidate added with tx: {tx_hash}")
-        except Exception as e:
-            flash(f"Error: {str(e)}")
+        # try:
+        #     tx_hash = send_transaction(func, private_key)
+        #     flash(f"Candidate added with tx: {tx_hash}")
+        # except Exception as e:
+        #     flash(f"Error: {str(e)}")
         return redirect(url_for('admin.add_candidate'))
 
     # Fetch campaigns from blockchain or DB to show in dropdown

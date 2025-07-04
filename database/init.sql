@@ -6,8 +6,6 @@ CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nid VARCHAR(100) NOT NULL UNIQUE,
     name VARCHAR(150) NOT NULL,
-    wallet_address VARCHAR(150) NOT NULL,
-    private_key VARCHAR(300) NOT NULL,
     password_hash VARCHAR(300) NOT NULL
 );
 
