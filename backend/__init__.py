@@ -1,14 +1,12 @@
 import os
 from flask import Flask
-from flask_mysqldb import MySQL
+from .extensions import mysql
 from dotenv import load_dotenv
-# from .routes.admin import admin_bp
 from .routes.result import result_bp
 from .routes.contract_info import contract_info_bp
 
 load_dotenv()
 
-mysql = MySQL()
 
 def create_app():
     app = Flask(__name__)

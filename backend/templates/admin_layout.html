@@ -6,7 +6,9 @@
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
   <body class="h-screen">
-    <nav class="bg-white fixed top-0 left-0 w-full z-50 shadow-md flex p-6 justify-between">
+    <nav
+      class="bg-white fixed top-0 left-0 w-full z-50 shadow-md flex p-6 justify-between"
+    >
       <div class="text-xl font-semibold text-gray-800">
         <a href="{{ url_for('admin.admin_home') }}">Admin</a>
       </div>
@@ -24,6 +26,9 @@
         >
         <a href="{{ url_for('admin.viewresult') }}" class="hover:text-blue-600"
           >Results</a
+        >
+                <a href="{{ url_for('admin.managevoters') }}" class="hover:text-blue-600"
+          >Voters</a
         >
       </div>
 

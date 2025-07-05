@@ -1,4 +1,4 @@
-from backend import mysql
+from backend.extensions import mysql
 from MySQLdb.cursors import DictCursor
 
 
@@ -149,3 +149,44 @@ def delete_campaign_and_candidates(campaign_id):
     
     mysql.connection.commit()
     cur.close()
+
+def get_all_voters():
+    cur = mysql.connection.cursor(DictCursor)
+    cur.execute("SELECT nid, name FROM users")
+    data = cur.fetchall()
+    cur.close()
+    return data
+
+
+def delete_voter_by_nid(nid):
+    cur = mysql.connection.cursor()
+    cur.execute("DELETE FROM users WHERE nid = %s", (nid,))
+    mysql.connection.commit()
+    cur.close()
+
+def get_dashboard_counts():
+    cur = mysql.connection.cursor()
+
+    cur.execute("SELECT COUNT(*) FROM users")
+    total_users = cur.fetchone()[0]
+
+    cur.execute("SELECT COUNT(*) FROM campaigns")
+    total_campaigns = cur.fetchone()[0]
+
+    cur.execute("SELECT COUNT(*) FROM campaigns WHERE status = 'ongoing'")
+    total_ongoing_campaigns = cur.fetchone()[0]
+
+    cur.close()
+
+    return {
+        "total_users": total_users,
+        "total_campaigns": total_campaigns,
+        "total_ongoing_campaigns": total_ongoing_campaigns
+    }
+
+def get_ongoing_campaigns():
+    cur = mysql.connection.cursor(DictCursor)
+    cur.execute("SELECT * FROM campaigns WHERE status = 'ongoing'")
+    data = cur.fetchall()
+    cur.close()
+    return data

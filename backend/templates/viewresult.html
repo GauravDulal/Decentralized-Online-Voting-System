@@ -1,0 +1,35 @@
+{% extends "admin_layout.html" %}
+{% block title %}Election Results{% endblock %}
+{% block content %}
+<div class="px-6 pt-24">
+  <h2 class="text-2xl font-bold mb-6 text-gray-800">Voting Results</h2>
+  <p class="mb-4 text-gray-700">Total Votes Casted: <strong>{{ total_votes }}</strong></p>
+
+  {% if results %}
+  <div class="overflow-x-auto">
+    <table class="min-w-full bg-white border border-gray-200 rounded-lg shadow">
+      <thead class="bg-gray-100 text-sm text-gray-700 uppercase tracking-wider">
+        <tr>
+          <th class="px-6 py-3 border-b">Campaign</th>
+          <th class="px-6 py-3 border-b">Candidate</th>
+          <th class="px-6 py-3 border-b">Wallet Address</th>
+          <th class="px-6 py-3 border-b">Votes</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for res in results %}
+        <tr class="hover:bg-gray-50">
+          <td class="px-6 py-4 border-b">{{ res.campaign_name }}</td>
+          <td class="px-6 py-4 border-b">{{ res.candidate_name }}</td>
+          <td class="px-6 py-4 border-b text-sm font-mono text-gray-600">{{ res.wallet }}</td>
+          <td class="px-6 py-4 border-b font-bold">{{ res.votes }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <p class="text-gray-500">No votes have been casted yet.</p>
+  {% endif %}
+</div>
+{% endblock %}
