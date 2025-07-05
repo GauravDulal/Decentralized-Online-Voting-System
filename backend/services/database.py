@@ -10,6 +10,14 @@ def get_user_by_nid(nid):
     return row
 
 
+def get_admin_by_username(username):
+    cur = mysql.connection.cursor(DictCursor)
+    cur.execute("SELECT * FROM admin WHERE Aname = %s", (username,))
+    data = cur.fetchone()
+    cur.close()
+    return data
+
+
 def create_user(name, nid, password_hash):
     cur = mysql.connection.cursor()
     cur.execute(

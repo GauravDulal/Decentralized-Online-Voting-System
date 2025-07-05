@@ -32,8 +32,4 @@ def election():
         return render_template('index.html')
     return render_template('elections.html')
 
-# @main_bp.route('/learnmore')
-# def election():
-#     if "user" not in session:
-#         return render_template('index.html')
-#     return render_template('learnmore.html')
+

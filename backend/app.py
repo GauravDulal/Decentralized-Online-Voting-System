@@ -1,4 +1,5 @@
 from . import create_app
+from backend import mysql
 
 app = create_app()
 

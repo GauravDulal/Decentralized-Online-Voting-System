@@ -2,11 +2,10 @@ import os
 from flask import Flask
 from flask_mysqldb import MySQL
 from dotenv import load_dotenv
-from .routes.admin import admin_bp
+# from .routes.admin import admin_bp
 from .routes.result import result_bp
 from .routes.contract_info import contract_info_bp
 
-# Load env vars
 load_dotenv()
 
 mysql = MySQL()
@@ -28,12 +27,13 @@ def create_app():
     from .routes.campaign import campaign_bp
     from .routes.vote import vote_bp
     from .routes.main import main_bp
+    from .routes.admin import admin_bp
 
     app.register_blueprint(main_bp)
     app.register_blueprint(auth_bp, url_prefix='/auth')
     app.register_blueprint(campaign_bp, url_prefix='/campaigns')
     app.register_blueprint(vote_bp, url_prefix='/vote')
-    app.register_blueprint(admin_bp)
     app.register_blueprint(result_bp)
     app.register_blueprint(contract_info_bp)
+    app.register_blueprint(admin_bp)
     return app

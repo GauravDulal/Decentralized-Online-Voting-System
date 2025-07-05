@@ -1,29 +1,146 @@
-{% extends "layout.html" %} {% block title %}Admin Panel{% endblock %} {% block
-content %}
-<div class="bg-white p-6 rounded shadow">
-  <h1 class="text-2xl font-bold mb-6">Admin Panel</h1>
-  <ul class="space-y-4">
-    <li>
-      <a
-        href="{{ url_for('admin.add_campaign') }}"
-        class="bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700"
-        >Add Campaign</a
+{% extends "admin_layout.html" %} {% block title %}Admin Panel{% endblock %} {%
+block content %}
+<div class="flex flex-col w-screen mt-16 px-4 ">
+  <main class="p-6 space-y-6">
+    <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div
+        class="bg-white shadow rounded p-4 flex justify-between items-center"
       >
-    </li>
-    <li>
-      <a
-        href="{{ url_for('admin.add_candidate') }}"
-        class="bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700"
-        >Add Candidate</a
+        <div>
+          <p class="text-gray-600 font-semibold">Total Elections</p>
+          <h3 class="text-2xl font-bold text-black">5</h3>
+          <p class="text-sm text-gray-400">All time</p>
+        </div>
+        <img src="../static/imgs/notebook.png" alt="icon" class="w-12 h-12" />
+      </div>
+
+      <div
+        class="bg-white shadow rounded p-4 flex justify-between items-center"
       >
-    </li>
-    <li>
-      <a
-        href="{{ url_for('main.dashboard') }}"
-        class="bg-gray-600 text-white px-6 py-3 rounded hover:bg-gray-700"
-        >Back to Dashboard</a
+        <div>
+          <p class="text-gray-600 font-semibold">Active Elections</p>
+          <h3 class="text-2xl font-bold text-black">2</h3>
+          <p class="text-sm text-gray-400">Currently running</p>
+        </div>
+        <img src="../static/imgs/heart-rate.png" alt="icon" class="w-12 h-12" />
+      </div>
+
+      <div
+        class="bg-white shadow rounded p-4 flex justify-between items-center"
       >
-    </li>
-  </ul>
+        <div>
+          <p class="text-gray-600 font-semibold">Total Voters</p>
+          <h3 class="text-2xl font-bold text-black">150</h3>
+          <p class="text-sm text-gray-400">All time</p>
+        </div>
+        <img src="../static/imgs/user.png" alt="icon" class="w-12 h-12" />
+      </div>
+
+      <div
+        class="bg-white shadow rounded p-4 flex justify-between items-center"
+      >
+        <div>
+          <p class="text-gray-600 font-semibold">Total Votes Cast</p>
+          <h3 class="text-2xl font-bold text-black">120</h3>
+          <p class="text-sm text-gray-400">All time</p>
+        </div>
+        <img src="../static/imgs/vote.png" alt="icon" class="w-12 h-12" />
+      </div>
+    </section>
+
+    <!-- Main Panels -->
+    <section class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+      <!-- Recent Activity -->
+      <div class="lg:col-span-2 bg-white rounded shadow p-4">
+        <h2 class="text-lg font-bold mb-4 text-black">Recent Activity</h2>
+        <ul class="divide-y divide-gray-100">
+          <li class="flex justify-between py-4">
+            <div class="flex gap-4">
+              <img
+                src="../static/imgs/kp_oli.jpg"
+                class="w-12 h-12 rounded-full bg-gray-50"
+                alt=""
+              />
+              <div>
+                <p class="font-semibold text-gray-900">Leslie Alexander</p>
+                <p class="text-xs text-gray-500">
+                  leslie.alexander@example.com
+                </p>
+              </div>
+            </div>
+            <div class="text-sm text-gray-900">Presidential Election 2024</div>
+          </li>
+          <!-- Add more people if needed -->
+        </ul>
+      </div>
+
+      <!-- Quick Actions + Campaigns -->
+      <div class="space-y-4">
+        <!-- Quick Actions -->
+        <div class="bg-white rounded shadow p-4">
+          <h2 class="text-lg font-bold mb-4 text-black">Quick Actions</h2>
+          <a href='/addcampaign'
+            class="w-full flex items-center justify-center gap-2 px-4 py-2 bg-black text-white font-semibold rounded-md hover:bg-gray-800 mb-3"
+          >
+            + Create New Election
+          </a>
+          <div class="flex flex-col gap-2">
+            <button
+              class="w-full flex items-center gap-2 px-4 py-2 border border-gray-200 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50"
+            >
+              👁️ View Results
+            </button>
+            <button
+              class="w-full flex items-center gap-2 px-4 py-2 border border-gray-200 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50"
+            >
+              👥 Manage Voters
+            </button>
+            <button
+              class="w-full flex items-center gap-2 px-4 py-2 border border-gray-200 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50"
+            >
+              ➕ Manage Candidates
+            </button>
+          </div>
+        </div>
+
+        <!-- Ongoing Campaigns -->
+        <div class="bg-white rounded shadow p-4">
+          <h2 class="text-lg font-bold mb-4 text-black">Ongoing Campaigns</h2>
+          <div class="space-y-4">
+            <div class="border p-4 rounded hover:shadow">
+              <div class="flex justify-between mb-2">
+                <h3 class="font-semibold text-blue-700">
+                  Presidential Election 2024
+                </h3>
+                <span
+                  class="text-sm bg-green-100 text-green-600 px-2 py-1 rounded-full"
+                  >Ongoing</span
+                >
+              </div>
+              <p class="text-sm text-gray-600 mb-1">
+                National level election for the new president.
+              </p>
+              <p class="text-xs text-gray-400">2025-06-01 - 2025-06-30</p>
+            </div>
+            <div class="border p-4 rounded hover:shadow">
+              <div class="flex justify-between mb-2">
+                <h3 class="font-semibold text-blue-700">
+                  Mayoral Election - Kathmandu
+                </h3>
+                <span
+                  class="text-sm bg-green-100 text-green-600 px-2 py-1 rounded-full"
+                  >Ongoing</span
+                >
+              </div>
+              <p class="text-sm text-gray-600 mb-1">
+                Electing the new mayor of Kathmandu.
+              </p>
+              <p class="text-xs text-gray-400">2025-06-10 - 2025-06-20</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
 </div>
 {% endblock %}

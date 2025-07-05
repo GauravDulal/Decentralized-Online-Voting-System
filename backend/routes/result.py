@@ -7,7 +7,6 @@ result_bp = Blueprint("result", __name__)
 @result_bp.route("/results/<int:campaign_id>")
 def results(campaign_id):
     contract = load_contract()
-
     try:
         campaign_name = contract.functions.campaigns(campaign_id).call()
     except Exception as e:

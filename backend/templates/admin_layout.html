@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-gray-50">
+  <head>
+    <meta charset="UTF-8" />
+    <title>{% block title %}Admin{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="h-screen flex">
+    <nav class="bg-white fixed top-0 left-0 w-full z-50 shadow-md flex p-6 justify-between">
+      <div class="text-xl font-semibold text-gray-800">
+        <a href="{{ url_for('admin.admin_home') }}">Admin</a>
+      </div>
+
+      <div class="space-x-4 text-gray-700 font-medium">
+        <a
+          href="{{ url_for('admin.viewcampaign') }}"
+          class="hover:text-blue-600"
+          >Campaigns</a
+        >
+        <a
+          href="{{ url_for('admin.viewcandidates') }}"
+          class="hover:text-blue-600"
+          >Candidates</a
+        >
+        <a href="{{ url_for('admin.viewresult') }}" class="hover:text-blue-600"
+          >Results</a
+        >
+      </div>
+
+      <div>
+        {% if session.get('admin') %}
+        <a
+          href="{{ url_for('admin.adminlogout') }}"
+          class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+          >Sign Out</a
+        >
+        {% else %}
+        <a
+          href="{{ url_for('admin.adminsignin') }}"
+          class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+          >Sign In</a
+        >
+        {% endif %}
+      </div>
+    </nav>
+
+    <div class="major_portions">
+      {% with messages = get_flashed_messages() %} {% if messages %} {% for
+      message in messages %}
+      <div
+        class="absolute border-l-4 border-indigo-500 bg-indigo-300 text-indigo-700 p-4 mb-4 rounded w-full"
+      >
+        {{ message }}
+      </div>
+      {% endfor %} {% endif %} {% endwith %} {% block content %}{% endblock %}
+    </div>
+  </body>
+</html>
