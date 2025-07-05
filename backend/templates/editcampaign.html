@@ -1,0 +1,36 @@
+{% extends "admin_layout.html" %}
+{% block title %}Edit Campaign{% endblock %}
+{% block content %}
+<div class="px-6 pt-24 max-w-xl mx-auto">
+  <h2 class="text-2xl font-bold mb-6 text-gray-800">Edit Campaign</h2>
+
+  <form method="POST" class="bg-white p-6 rounded-lg shadow space-y-4">
+    <div>
+      <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+      <input type="text" name="name" id="name" value="{{ campaign.name }}" required
+        class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300">
+    </div>
+
+    <div>
+      <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+      <textarea name="description" id="description" rows="3"
+        class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300">{{ campaign.description }}</textarea>
+    </div>
+
+    <div>
+      <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
+      <select name="status" id="status"
+        class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300">
+        <option value="Upcoming" {% if campaign.status == 'Upcoming' %}selected{% endif %}>Upcoming</option>
+        <option value="Ongoing" {% if campaign.status == 'Ongoing' %}selected{% endif %}>Ongoing</option>
+        <option value="Completed" {% if campaign.status == 'Completed' %}selected{% endif %}>Completed</option>
+      </select>
+    </div>
+
+    <div class="text-right">
+      <button type="submit"
+        class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">Save Changes</button>
+    </div>
+  </form>
+</div>
+{% endblock %}
