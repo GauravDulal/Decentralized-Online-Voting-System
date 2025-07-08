@@ -202,7 +202,3 @@ candidateVotes[campaignId][candidateId]
 - Use `print()` or logs in Flask/Truffle for debugging
 
 ---
-
-## 📜 License
-
-This project is open-source and available under the [MIT License](LICENSE).
